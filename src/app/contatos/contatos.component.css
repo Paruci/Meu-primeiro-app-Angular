@@ -1,0 +1,29 @@
+.contatos-container {
+    padding: 10px;
+  }
+  
+  .lista-contatos {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .card-contato {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid #4a90e2;
+  }
+  
+  .card-contato strong {
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .card-contato span {
+    color: #666;
+    font-size: 0.9rem;
+  }

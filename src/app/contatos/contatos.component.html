@@ -1,0 +1,18 @@
+<div class="contatos-container">
+    <h2>Meus Contatos</h2>
+  
+    <div class="formulario">
+      <input [(ngModel)]="novoContato.nome" placeholder="Nome" />
+      <input [(ngModel)]="novoContato.telefone" placeholder="Telefone" />
+      <input [(ngModel)]="novoContato.email" placeholder="Email" />
+      <button (click)="adicionarContato()">Adicionar</button>
+    </div>
+  
+    <ul class="lista-contatos">
+      <li *ngFor="let contato of contatos" class="card-contato">
+        <strong>{{ contato.nome }}</strong>
+        <span>📞 {{ contato.telefone }}</span>
+        <span>✉️ {{ contato.email }}</span>
+      </li>
+    </ul>
+  </div>
