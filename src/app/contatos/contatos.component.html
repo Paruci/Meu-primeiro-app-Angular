@@ -1,18 +1,42 @@
 <div class="contatos-container">
-    <h2>Meus Contatos</h2>
-  
-    <div class="formulario">
-      <input [(ngModel)]="novoContato.nome" placeholder="Nome" />
-      <input [(ngModel)]="novoContato.telefone" placeholder="Telefone" />
-      <input [(ngModel)]="novoContato.email" placeholder="Email" />
-      <button (click)="adicionarContato()">Adicionar</button>
-    </div>
-  
-    <ul class="lista-contatos">
-      <li *ngFor="let contato of contatos" class="card-contato">
+  <h2>Meus Contatos</h2>
+
+  <input
+    class="campo-busca"
+    [(ngModel)]="busca"
+    placeholder="🔍 Buscar por nome..."
+  />
+
+  <div class="formulario">
+    <input [(ngModel)]="novoContato.nome" placeholder="Nome" />
+    <input [(ngModel)]="novoContato.telefone" placeholder="Telefone" />
+    <input [(ngModel)]="novoContato.email" placeholder="Email" />
+    <button (click)="adicionarContato()">Adicionar</button>
+  </div>
+
+  <ul class="lista-contatos">
+    <li *ngFor="let contato of contatosFiltrados" class="card-contato">
+
+      <ng-container *ngIf="contatoEditando?.id === contato.id; else visualizacao">
+        <input [(ngModel)]="contatoEditando.nome" placeholder="Nome" />
+        <input [(ngModel)]="contatoEditando.telefone" placeholder="Telefone" />
+        <input [(ngModel)]="contatoEditando.email" placeholder="Email" />
+        <div class="acoes">
+          <button class="btn-salvar" (click)="salvarEdicao()">💾 Salvar</button>
+          <button class="btn-cancelar" (click)="cancelarEdicao()">✖ Cancelar</button>
+        </div>
+      </ng-container>
+
+      <ng-template #visualizacao>
         <strong>{{ contato.nome }}</strong>
         <span>📞 {{ contato.telefone }}</span>
         <span>✉️ {{ contato.email }}</span>
-      </li>
-    </ul>
-  </div>
+        <div class="acoes">
+          <button class="btn-editar" (click)="editarContato(contato)">✏️ Editar</button>
+          <button class="btn-deletar" (click)="deletarContato(contato.id)">🗑️ Deletar</button>
+        </div>
+      </ng-template>
+
+    </li>
+  </ul>
+</div>

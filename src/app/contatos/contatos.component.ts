@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ContatosService } from './contatos.service';
 
 @Component({
   selector: 'app-contatos',
@@ -12,21 +13,42 @@ import { FormsModule } from '@angular/forms';
 export class ContatosComponent {
 
   novoContato = { nome: '', telefone: '', email: '' };
+  contatoEditando: any = null;
+  busca = '';
 
-  contatos = [
-    { id: 1, nome: 'João Silva', telefone: '(11) 99999-1111', email: 'joao@email.com' },
-    { id: 2, nome: 'Maria Souza', telefone: '(11) 99999-2222', email: 'maria@email.com' },
-  ];
+  constructor(private contatosService: ContatosService) {}
+
+  get contatos() {
+    return this.contatosService.getContatos();
+  }
+
+  get contatosFiltrados() {
+    return this.contatos.filter(c =>
+      c.nome.toLowerCase().includes(this.busca.toLowerCase())
+    );
+  }
 
   adicionarContato() {
     if (!this.novoContato.nome) return;
-
-    this.contatos.push({
-      id: this.contatos.length + 1,
-      ...this.novoContato
-    });
-
+    this.contatosService.adicionarContato(this.novoContato);
     this.novoContato = { nome: '', telefone: '', email: '' };
+  }
+
+  deletarContato(id: number) {
+    this.contatosService.deletarContato(id);
+  }
+
+  editarContato(contato: any) {
+    this.contatoEditando = { ...contato };
+  }
+
+  salvarEdicao() {
+    this.contatosService.editarContato(this.contatoEditando);
+    this.contatoEditando = null;
+  }
+
+  cancelarEdicao() {
+    this.contatoEditando = null;
   }
 
 }

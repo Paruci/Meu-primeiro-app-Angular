@@ -1,29 +1,59 @@
-.contatos-container {
-    padding: 10px;
-  }
-  
-  .lista-contatos {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .card-contato {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    background: #f5f5f5;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border-left: 4px solid #4a90e2;
-  }
-  
-  .card-contato strong {
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .card-contato span {
-    color: #666;
-    font-size: 0.9rem;
-  }
+.acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-editar {
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.btn-editar:hover {
+  background: #2980b9;
+}
+
+.btn-salvar {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.btn-salvar:hover {
+  background: #27ae60;
+}
+
+.btn-cancelar {
+  background: #95a5a6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background: #7f8c8d;
+}
+.campo-busca {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.sem-resultados {
+  text-align: center;
+  color: #999;
+  margin-top: 20px;
+}
