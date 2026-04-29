@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContatosService } from './contatos.service';
+import { Contato, NovoContato } from './contato';
 
 @Component({
   selector: 'app-contatos',
@@ -11,44 +12,60 @@ import { ContatosService } from './contatos.service';
   styleUrl: './contatos.component.css'
 })
 export class ContatosComponent {
+  novoContato: NovoContato = {
+    nome: '',
+    telefone: '',
+    email: ''
+  };
 
-  novoContato = { nome: '', telefone: '', email: '' };
-  contatoEditando: any = null;
+  contatoEditando: Contato | null = null;
+
   busca = '';
 
   constructor(private contatosService: ContatosService) {}
 
-  get contatos() {
+  get contatos(): Contato[] {
     return this.contatosService.getContatos();
   }
 
-  get contatosFiltrados() {
-    return this.contatos.filter(c =>
-      c.nome.toLowerCase().includes(this.busca.toLowerCase())
+  get contatosFiltrados(): Contato[] {
+    return this.contatos.filter(contato =>
+      contato.nome.toLowerCase().includes(this.busca.toLowerCase())
     );
   }
 
-  adicionarContato() {
-    if (!this.novoContato.nome) return;
+  adicionarContato(): void {
+    if (!this.novoContato.nome.trim()) {
+      return;
+    }
+
     this.contatosService.adicionarContato(this.novoContato);
-    this.novoContato = { nome: '', telefone: '', email: '' };
+
+    this.novoContato = {
+      nome: '',
+      telefone: '',
+      email: ''
+    };
   }
 
-  deletarContato(id: number) {
+  deletarContato(id: number): void {
     this.contatosService.deletarContato(id);
   }
 
-  editarContato(contato: any) {
+  editarContato(contato: Contato): void {
     this.contatoEditando = { ...contato };
   }
 
-  salvarEdicao() {
+  salvarEdicao(): void {
+    if (!this.contatoEditando) {
+      return;
+    }
+
     this.contatosService.editarContato(this.contatoEditando);
     this.contatoEditando = null;
   }
 
-  cancelarEdicao() {
+  cancelarEdicao(): void {
     this.contatoEditando = null;
   }
-
 }

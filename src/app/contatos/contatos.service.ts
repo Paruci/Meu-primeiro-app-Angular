@@ -1,33 +1,52 @@
 import { Injectable } from '@angular/core';
+import { Contato, NovoContato } from './contato';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContatosService {
+  private proximoId = 3;
 
-  private contatos = [
-    { id: 1, nome: 'João Silva', telefone: '(11) 99999-1111', email: 'joao@email.com' },
-    { id: 2, nome: 'Maria Souza', telefone: '(11) 99999-2222', email: 'maria@email.com' },
+  private contatos: Contato[] = [
+    {
+      id: 1,
+      nome: 'João Silva',
+      telefone: '(11) 99999-1111',
+      email: 'joao@email.com'
+    },
+    {
+      id: 2,
+      nome: 'Maria Souza',
+      telefone: '(11) 99999-2222',
+      email: 'maria@email.com'
+    }
   ];
 
-  getContatos() {
+  getContatos(): Contato[] {
     return this.contatos;
   }
 
-  adicionarContato(contato: { nome: string; telefone: string; email: string }) {
-    this.contatos.push({
-      id: this.contatos.length + 1,
+  adicionarContato(contato: NovoContato): void {
+    const novoContato: Contato = {
+      id: this.proximoId,
       ...contato
-    });
+    };
+
+    this.contatos.push(novoContato);
+    this.proximoId++;
   }
 
-  deletarContato(id: number) {
-    this.contatos = this.contatos.filter(c => c.id !== id);
+  deletarContato(id: number): void {
+    this.contatos = this.contatos.filter(contato => contato.id !== id);
   }
 
-  editarContato(contatoEditado: { id: number; nome: string; telefone: string; email: string }) {
-    const index = this.contatos.findIndex(c => c.id === contatoEditado.id);
+  editarContato(contatoEditado: Contato): void {
+    const index = this.contatos.findIndex(contato => contato.id === contatoEditado.id);
+
+    if (index === -1) {
+      return;
+    }
+
     this.contatos[index] = { ...contatoEditado };
   }
-
 }
