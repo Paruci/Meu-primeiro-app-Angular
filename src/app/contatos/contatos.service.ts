@@ -5,22 +5,13 @@ import { Contato, NovoContato } from './contato';
   providedIn: 'root'
 })
 export class ContatosService {
-  private proximoId = 3;
+  private readonly chaveStorage = 'contatos';
 
-  private contatos: Contato[] = [
-    {
-      id: 1,
-      nome: 'João Silva',
-      telefone: '(11) 99999-1111',
-      email: 'joao@email.com'
-    },
-    {
-      id: 2,
-      nome: 'Maria Souza',
-      telefone: '(11) 99999-2222',
-      email: 'maria@email.com'
-    }
-  ];
+  private contatos: Contato[] = [];
+
+  constructor() {
+    this.carregarContatos();
+  }
 
   getContatos(): Contato[] {
     return this.contatos;
@@ -28,16 +19,17 @@ export class ContatosService {
 
   adicionarContato(contato: NovoContato): void {
     const novoContato: Contato = {
-      id: this.proximoId,
+      id: this.gerarProximoId(),
       ...contato
     };
 
     this.contatos.push(novoContato);
-    this.proximoId++;
+    this.salvarContatos();
   }
 
   deletarContato(id: number): void {
     this.contatos = this.contatos.filter(contato => contato.id !== id);
+    this.salvarContatos();
   }
 
   editarContato(contatoEditado: Contato): void {
@@ -48,5 +40,47 @@ export class ContatosService {
     }
 
     this.contatos[index] = { ...contatoEditado };
+    this.salvarContatos();
+  }
+
+  private salvarContatos(): void {
+    localStorage.setItem(this.chaveStorage, JSON.stringify(this.contatos));
+  }
+
+  private carregarContatos(): void {
+    const contatosSalvos = localStorage.getItem(this.chaveStorage);
+
+    if (contatosSalvos) {
+      this.contatos = JSON.parse(contatosSalvos);
+      return;
+    }
+
+    this.contatos = [
+      {
+        id: 1,
+        nome: 'João Silva',
+        telefone: '(11) 99999-1111',
+        email: 'joao@email.com'
+      },
+      {
+        id: 2,
+        nome: 'Maria Souza',
+        telefone: '(11) 99999-2222',
+        email: 'maria@email.com'
+      }
+    ];
+
+    this.salvarContatos();
+  }
+
+  private gerarProximoId(): number {
+    if (this.contatos.length === 0) {
+      return 1;
+    }
+
+    const ids = this.contatos.map(contato => contato.id);
+    const maiorId = Math.max(...ids);
+
+    return maiorId + 1;
   }
 }
