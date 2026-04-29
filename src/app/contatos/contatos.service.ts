@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Contato, NovoContato } from './contato';
+
+export interface Contato {
+  id: number;
+  nome: string;
+  telefone: string;
+  email: string;
+}
+
+export type NovoContato = Omit<Contato, 'id'>;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContatosService {
   private readonly chaveStorage = 'contatos';
-
   private contatos: Contato[] = [];
 
   constructor() {
@@ -78,9 +85,6 @@ export class ContatosService {
       return 1;
     }
 
-    const ids = this.contatos.map(contato => contato.id);
-    const maiorId = Math.max(...ids);
-
-    return maiorId + 1;
+    return Math.max(...this.contatos.map(contato => contato.id)) + 1;
   }
 }
